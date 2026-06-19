@@ -10,22 +10,52 @@ public class Figure : MonoBehaviour
         FigureType.Big;
 
     private SpriteRenderer spriteRenderer;
+    private Rigidbody2D rb;
 
     [Header("Collision")]
     [SerializeField]
-    private float collisionCooldown = 0.1f;
+    private float collisionCooldown = 0.15f;
 
     private float nextCollisionTime = 0f;
+
+    [Header("Bounce")]
+    [SerializeField]
+    private float bounceVariation = 0.35f;
+
+    [SerializeField]
+    private float minAxisSpeed = 0.2f;
+
+    [Header("Speed Limits")]
+    [SerializeField]
+    private float minSpeed = 4f;
+
+    [SerializeField]
+    private float maxSpeed = 8f;
 
     private void Awake()
     {
         spriteRenderer =
             GetComponent<SpriteRenderer>();
+
+        rb =
+            GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
         UpdateVisual();
+    }
+
+    private void FixedUpdate()
+    {
+        if (
+            figureType ==
+            FigureType.Small
+        )
+        {
+            FixStuckMovement();
+            ClampSpeed();
+        }
     }
 
     public void SetState(
@@ -82,9 +112,46 @@ public class Figure : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(
-    Collision2D collision
-)
+        Collision2D collision
+    )
     {
+        //------------------------------------------------
+        // CHOQUE CONTRA PAREDES
+        //------------------------------------------------
+        if (
+            collision.gameObject.CompareTag("Wall")
+        )
+        {
+            if (
+                figureType !=
+                FigureType.Small
+            )
+            {
+                return;
+            }
+
+            if (
+                Time.time <
+                nextCollisionTime
+            )
+            {
+                return;
+            }
+
+            nextCollisionTime =
+                Time.time +
+                collisionCooldown;
+
+            CycleState();
+
+            AddBounceVariation();
+
+            return;
+        }
+
+        //------------------------------------------------
+        // CHOQUE CONTRA OTRA FIGURA
+        //------------------------------------------------
         Figure other =
             collision.gameObject
                 .GetComponent<Figure>();
@@ -126,5 +193,113 @@ public class Figure : MonoBehaviour
 
         CycleState();
         other.CycleState();
+    }
+
+    void AddBounceVariation()
+    {
+        if (rb == null)
+            return;
+
+        Vector2 velocity =
+            rb.linearVelocity;
+
+        Vector2 randomOffset =
+            new Vector2(
+                Random.Range(
+                    -bounceVariation,
+                    bounceVariation
+                ),
+                Random.Range(
+                    -bounceVariation,
+                    bounceVariation
+                )
+            );
+
+        velocity += randomOffset;
+
+        velocity =
+            velocity.normalized *
+            velocity.magnitude;
+
+        rb.linearVelocity =
+            velocity;
+
+        ClampSpeed();
+    }
+
+    void FixStuckMovement()
+    {
+        if (rb == null)
+            return;
+
+        if (
+            rb.linearVelocity.magnitude
+            < 0.1f
+        )
+        {
+            return;
+        }
+
+        Vector2 direction =
+            rb.linearVelocity.normalized;
+
+        if (
+            Mathf.Abs(direction.x)
+            < minAxisSpeed
+        )
+        {
+            float dir =
+                Random.value > 0.5f
+                ? 1f
+                : -1f;
+
+            rb.linearVelocity =
+                new Vector2(
+                    dir *
+                    rb.linearVelocity.magnitude,
+                    rb.linearVelocity.y
+                );
+        }
+
+        if (
+            Mathf.Abs(direction.y)
+            < minAxisSpeed
+        )
+        {
+            float dir =
+                Random.value > 0.5f
+                ? 1f
+                : -1f;
+
+            rb.linearVelocity =
+                new Vector2(
+                    rb.linearVelocity.x,
+                    dir *
+                    rb.linearVelocity.magnitude
+                );
+        }
+    }
+
+    void ClampSpeed()
+    {
+        if (rb == null)
+            return;
+
+        float speed =
+            rb.linearVelocity.magnitude;
+
+        if (speed < minSpeed)
+        {
+            rb.linearVelocity =
+                rb.linearVelocity.normalized *
+                minSpeed;
+        }
+
+        if (speed > maxSpeed)
+        {
+            rb.linearVelocity =
+                rb.linearVelocity.normalized *
+                maxSpeed;
+        }
     }
 }

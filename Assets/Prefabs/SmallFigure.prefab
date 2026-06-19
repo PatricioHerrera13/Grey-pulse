@@ -167,3 +167,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   figureType: 1
+  collisionCooldown: 0.2
+  bounceVariation: 0.3
+  minAxisSpeed: 0.2
+  minSpeed: 4
+  maxSpeed: 8

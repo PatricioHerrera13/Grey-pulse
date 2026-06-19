@@ -167,3 +167,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   figureType: 0
+  collisionCooldown: 0.1
