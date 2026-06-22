@@ -34,7 +34,8 @@ public class SwipeManager : MonoBehaviour
     // ====================== LÓGICA ORIGINAL (sin cambios) ======================
     void TryCutFigure(Figure figure)
     {
-        if (figure.currentState != FigureState.White) return;
+        if (figure.currentState != FigureState.White)
+            return;
 
         if (!firstCutMade)
         {
@@ -42,21 +43,46 @@ public class SwipeManager : MonoBehaviour
             TimerManager.Instance.StartTimer();
         }
 
-        GameManager gm = GameManager.Instance;
+        GameManager gm =
+            GameManager.Instance;
 
-        if (figure.figureType == FigureType.Big)
+        if (figure.figureType ==
+            FigureType.Big)
         {
-            gm.SpawnSmallFigures(figure.transform.position);
+            gm.SpawnSmallFigures(
+                figure.transform.position
+            );
         }
 
         gm.figures.Remove(figure);
-        
-        int points = (figure.figureType == FigureType.Big) ? 10 : 5;
-        ScoreManager.Instance.AddScore(points);
-        
-        Destroy(figure.gameObject);
 
-        if (figure.figureType == FigureType.Big)
+        int points =
+            (figure.figureType ==
+            FigureType.Big)
+            ? 10
+            : 5;
+
+        ScoreManager.Instance
+            .AddScore(points);
+
+        if (figure.figureType ==
+            FigureType.Big)
+        {
+            AudioManager.Instance
+                .PlayCutBig();
+        }
+        else
+        {
+            AudioManager.Instance
+                .PlayCutSmall();
+        }
+
+        Destroy(
+            figure.gameObject
+        );
+
+        if (figure.figureType ==
+            FigureType.Big)
         {
             AdvanceChain();
         }

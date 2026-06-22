@@ -30,7 +30,7 @@ public class Figure : MonoBehaviour
     private float minSpeed = 3f;
 
     [SerializeField]
-    private float maxSpeed = 6f;
+    private float maxSpeed = 5f;
 
     private void Awake()
     {
@@ -137,12 +137,16 @@ public class Figure : MonoBehaviour
             {
                 return;
             }
-
             nextCollisionTime =
                 Time.time +
                 collisionCooldown;
 
             CycleState();
+
+            if (AudioManager.Instance != null)
+            {
+                AudioManager.Instance.PlayBounce();
+            }
 
             AddBounceVariation();
 
@@ -184,8 +188,8 @@ public class Figure : MonoBehaviour
         }
 
         nextCollisionTime =
-            Time.time +
-            collisionCooldown;
+    Time.time +
+    collisionCooldown;
 
         other.nextCollisionTime =
             Time.time +
@@ -193,6 +197,11 @@ public class Figure : MonoBehaviour
 
         CycleState();
         other.CycleState();
+
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlayBounce();
+        }
     }
 
     void AddBounceVariation()
