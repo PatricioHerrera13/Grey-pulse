@@ -27,10 +27,10 @@ public class Figure : MonoBehaviour
 
     [Header("Speed Limits")]
     [SerializeField]
-    private float minSpeed = 4f;
+    private float minSpeed = 3f;
 
     [SerializeField]
-    private float maxSpeed = 8f;
+    private float maxSpeed = 6f;
 
     private void Awake()
     {

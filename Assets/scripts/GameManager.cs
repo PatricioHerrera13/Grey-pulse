@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour
     }
     public void SpawnRound()
     {
+        ArenaManager.Instance
+      .SpawnRandomArena();
         ClearRound();
         GenerateGrid();
 
