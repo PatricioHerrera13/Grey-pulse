@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-using System.Collections.Generic;
-using UnityEngine;
-=======
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
->>>>>>> respaldo-menu
 
 public class GameManager : MonoBehaviour
 {
@@ -28,17 +23,9 @@ public class GameManager : MonoBehaviour
     public int smallFiguresPerBig = 2;
     public float smallFigureForce = 5f;
    
-<<<<<<< HEAD
-    public List<Figure> figures =
-        new List<Figure>();
-
-    private List<Vector2> availablePositions =
-        new List<Vector2>();
-=======
     public List<Figure> figures = new List<Figure>();
 
     private List<Vector2> availablePositions = new List<Vector2>();
->>>>>>> respaldo-menu
 
     [HideInInspector]
     public Figure currentWhiteFigure;
@@ -46,8 +33,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Figure currentGrayFigure;
 
-<<<<<<< HEAD
-=======
     // ==================== TUTORIAL MEJORADO ====================
     [Header("UI Flow - Tutorial")]
     public GameObject tutorialPanel;
@@ -59,7 +44,6 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public bool gameStarted = false;
 
->>>>>>> respaldo-menu
     private void Awake()
     {
         Instance = this;
@@ -67,19 +51,6 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-<<<<<<< HEAD
-        SpawnRound();
-
-        if (RoundManager.Instance != null)
-        {
-            RoundManager.Instance.UpdateUI();
-        }
-    }
-    public void SpawnRound()
-    {
-        ArenaManager.Instance
-      .SpawnRandomArena();
-=======
         // No inicia automáticamente
     }
 
@@ -161,48 +132,10 @@ public class GameManager : MonoBehaviour
     public void SpawnRound()
     {
         ArenaManager.Instance.SpawnRandomArena();
->>>>>>> respaldo-menu
         ClearRound();
         GenerateGrid();
 
         int amount = currentRound + 5;
-<<<<<<< HEAD
-
-        amount = Mathf.Min(
-            amount,
-            availablePositions.Count
-        );
-
-        for (int i = 0; i < amount; i++)
-        {
-            int randomIndex =
-                Random.Range(
-                    0,
-                    availablePositions.Count
-                );
-
-            Vector2 pos =
-                availablePositions[randomIndex];
-
-            availablePositions.RemoveAt(
-                randomIndex
-            );
-
-            GameObject obj =
-                Instantiate(
-                    figurePrefab,
-                    pos,
-                    Quaternion.identity
-                );
-
-            Figure figure =
-                obj.GetComponent<Figure>();
-
-            figure.SetState(
-                FigureState.Black
-            );
-
-=======
         amount = Mathf.Min(amount, availablePositions.Count);
 
         for (int i = 0; i < amount; i++)
@@ -215,53 +148,26 @@ public class GameManager : MonoBehaviour
             Figure figure = obj.GetComponent<Figure>();
 
             figure.SetState(FigureState.Black);
->>>>>>> respaldo-menu
             figures.Add(figure);
         }
 
         ChooseInitialFigures();
 
-<<<<<<< HEAD
-        Debug.Log(
-            "Nueva ronda: " +
-            currentRound
-        );
-=======
         Debug.Log("Nueva ronda: " + currentRound);
->>>>>>> respaldo-menu
     }
 
     void GenerateGrid()
     {
         availablePositions.Clear();
 
-<<<<<<< HEAD
-        float startX =
-            -(columns - 1) *
-            cellSize / 2f;
-
-        float startY =
-            -(rows - 1) *
-            cellSize / 2f;
-=======
         float startX = -(columns - 1) * cellSize / 2f;
         float startY = -(rows - 1) * cellSize / 2f;
->>>>>>> respaldo-menu
 
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
             {
-<<<<<<< HEAD
-                Vector2 pos =
-                    new Vector2(
-                        startX + x * cellSize,
-                        startY + y * cellSize
-                    );
-
-=======
                 Vector2 pos = new Vector2(startX + x * cellSize, startY + y * cellSize);
->>>>>>> respaldo-menu
                 availablePositions.Add(pos);
             }
         }
@@ -269,105 +175,6 @@ public class GameManager : MonoBehaviour
 
     void ChooseInitialFigures()
     {
-<<<<<<< HEAD
-        if (figures.Count < 2)
-            return;
-
-        int whiteIndex =
-            Random.Range(
-                0,
-                figures.Count
-            );
-
-        currentWhiteFigure =
-            figures[whiteIndex];
-
-        currentWhiteFigure
-            .SetState(
-                FigureState.White
-            );
-
-        Figure nextFigure =
-            GetRandomFigure(
-                currentWhiteFigure
-            );
-
-        if (nextFigure != null)
-        {
-            currentGrayFigure =
-                nextFigure;
-
-            currentGrayFigure
-                .SetState(
-                    FigureState.Gray
-                );
-        }
-    }
-
-    public Figure GetRandomFigure(
-        Figure excluded
-    )
-    {
-        List<Figure> candidates =
-            new List<Figure>();
-
-        foreach (Figure f in figures)
-        {
-            if (
-                f != null &&
-                f != excluded
-            )
-            {
-                candidates.Add(f);
-            }
-        }
-
-        if (candidates.Count == 0)
-            return null;
-
-        int randomIndex =
-            Random.Range(
-                0,
-                candidates.Count
-            );
-
-        return candidates[randomIndex];
-    }
-
-    public void SpawnSmallFigures(
-    Vector2 position
-)
-    {
-        for (
-            int i = 0;
-            i < smallFiguresPerBig;
-            i++
-        )
-        {
-            GameObject obj =
-                Instantiate(
-                    smallFigurePrefab,
-                    position,
-                    Quaternion.identity
-                );
-
-            Figure smallFigure =
-                obj.GetComponent<Figure>();
-
-            figures.Add(smallFigure);
-
-            Rigidbody2D rb =
-                obj.GetComponent<Rigidbody2D>();
-
-            Vector2 direction =
-                Random.insideUnitCircle.normalized;
-
-            rb.AddForce(
-                direction *
-                smallFigureForce,
-                ForceMode2D.Impulse
-            );
-=======
         if (figures.Count < 2) return;
 
         int whiteIndex = Random.Range(0, figures.Count);
@@ -409,7 +216,6 @@ public class GameManager : MonoBehaviour
             Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
             Vector2 direction = Random.insideUnitCircle.normalized;
             rb.AddForce(direction * smallFigureForce, ForceMode2D.Impulse);
->>>>>>> respaldo-menu
         }
     }
 
@@ -418,20 +224,6 @@ public class GameManager : MonoBehaviour
         foreach (Figure f in figures)
         {
             if (f != null)
-<<<<<<< HEAD
-            {
-                Destroy(
-                    f.gameObject
-                );
-            }
-        }
-
-        figures.Clear();
-
-        currentWhiteFigure = null;
-        currentGrayFigure = null;
-    }
-=======
                 Destroy(f.gameObject);
         }
 
@@ -440,57 +232,30 @@ public class GameManager : MonoBehaviour
         currentGrayFigure = null;
     }
 
->>>>>>> respaldo-menu
     public void RestartRun()
     {
         currentRound = 1;
 
         if (RoundManager.Instance != null)
-<<<<<<< HEAD
-        {
             RoundManager.Instance.UpdateUI();
-        }
-=======
-            RoundManager.Instance.UpdateUI();
->>>>>>> respaldo-menu
 
         TimerManager.Instance.StopTimer();
         TimerManager.Instance.ResetTimer();
 
-<<<<<<< HEAD
-        SwipeManager swipe =
-            FindFirstObjectByType<SwipeManager>();
-
-        if (swipe != null)
-        {
-            swipe.ResetRun();
-        }
-=======
         SwipeManager swipe = FindFirstObjectByType<SwipeManager>();
         if (swipe != null)
             swipe.ResetRun();
->>>>>>> respaldo-menu
 
         ScoreManager.Instance.ResetScore();
 
         SpawnRound();
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> respaldo-menu
     public void NextRound()
     {
         currentRound++;
 
         if (RoundManager.Instance != null)
-<<<<<<< HEAD
-        {
             RoundManager.Instance.UpdateUI();
-        }
-=======
-            RoundManager.Instance.UpdateUI();
->>>>>>> respaldo-menu
 
         SpawnRound();
     }
