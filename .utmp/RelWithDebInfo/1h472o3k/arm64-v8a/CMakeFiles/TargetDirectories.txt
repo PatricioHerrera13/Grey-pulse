@@ -1,0 +1,8 @@
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/CMakeFiles/edit_cache.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/CMakeFiles/rebuild_cache.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/GameActivity/CMakeFiles/game.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+X:/Descargas/Grey-pulse-main/.utmp/RelWithDebInfo/1h472o3k/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir
