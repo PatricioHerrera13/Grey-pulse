@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 using System.Collections.Generic;
 using UnityEngine;
+=======
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+>>>>>>> respaldo-menu
 
 public class GameManager : MonoBehaviour
 {
@@ -21,11 +28,17 @@ public class GameManager : MonoBehaviour
     public int smallFiguresPerBig = 2;
     public float smallFigureForce = 5f;
    
+<<<<<<< HEAD
     public List<Figure> figures =
         new List<Figure>();
 
     private List<Vector2> availablePositions =
         new List<Vector2>();
+=======
+    public List<Figure> figures = new List<Figure>();
+
+    private List<Vector2> availablePositions = new List<Vector2>();
+>>>>>>> respaldo-menu
 
     [HideInInspector]
     public Figure currentWhiteFigure;
@@ -33,6 +46,20 @@ public class GameManager : MonoBehaviour
     [HideInInspector]
     public Figure currentGrayFigure;
 
+<<<<<<< HEAD
+=======
+    // ==================== TUTORIAL MEJORADO ====================
+    [Header("UI Flow - Tutorial")]
+    public GameObject tutorialPanel;
+    public TMP_Text countdownText;
+    
+    [Header("Tutorial Images")]
+    public GameObject[] tutorialImages;   // Arrastra aquí las 5 imágenes
+
+    [HideInInspector]
+    public bool gameStarted = false;
+
+>>>>>>> respaldo-menu
     private void Awake()
     {
         Instance = this;
@@ -40,6 +67,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+<<<<<<< HEAD
         SpawnRound();
 
         if (RoundManager.Instance != null)
@@ -51,10 +79,94 @@ public class GameManager : MonoBehaviour
     {
         ArenaManager.Instance
       .SpawnRandomArena();
+=======
+        // No inicia automáticamente
+    }
+
+    private void OnEnable()
+    {
+        StartCoroutine(StartTutorialAfterLoad());
+    }
+
+    private IEnumerator StartTutorialAfterLoad()
+    {
+        yield return new WaitForSeconds(0.1f);
+        
+        if (!gameStarted)
+        {
+            StartGameWithTutorial();
+        }
+    }
+
+    public void StartGameWithTutorial()
+    {
+        gameStarted = false;
+        if (tutorialPanel != null) tutorialPanel.SetActive(true);
+        StartCoroutine(TutorialCoroutine());
+    }
+
+    // ==================== TUTORIAL CON 5 IMÁGENES (2 SEGUNDOS POR PASO) ====================
+    private IEnumerator TutorialCoroutine()
+    {
+        if (countdownText == null || tutorialImages == null) yield break;
+
+        countdownText.gameObject.SetActive(true);
+
+        for (int i = 5; i >= 1; i--)
+        {
+            // Activar solo la imagen correspondiente
+            ShowTutorialImage(i);
+            
+            countdownText.text = i.ToString();
+            yield return new WaitForSeconds(2f);     // ← Cambiado a 2 segundos
+        }
+
+        // ¡YA!
+        countdownText.text = "¡YA!";
+        ShowTutorialImage(0); // Oculta todas las imágenes
+        yield return new WaitForSeconds(1f);         // Tiempo del "¡YA!"
+
+        // Finalizar tutorial
+        countdownText.gameObject.SetActive(false);
+        if (tutorialPanel != null) 
+            tutorialPanel.SetActive(false);
+        
+        gameStarted = true;
+
+        // Iniciar el juego
+        SpawnRound();
+
+        if (RoundManager.Instance != null)
+            RoundManager.Instance.UpdateUI();
+    }
+
+    // Muestra la imagen correspondiente (1 a 5). Si paso 0 → oculta todas
+    private void ShowTutorialImage(int number)
+    {
+        // Desactivar todas primero
+        foreach (GameObject img in tutorialImages)
+        {
+            if (img != null) img.SetActive(false);
+        }
+
+        // Activar la correcta
+        if (number >= 1 && number <= tutorialImages.Length)
+        {
+            if (tutorialImages[number - 1] != null)
+                tutorialImages[number - 1].SetActive(true);
+        }
+    }
+
+    // ==================== CÓDIGO ORIGINAL (sin cambios) ====================
+    public void SpawnRound()
+    {
+        ArenaManager.Instance.SpawnRandomArena();
+>>>>>>> respaldo-menu
         ClearRound();
         GenerateGrid();
 
         int amount = currentRound + 5;
+<<<<<<< HEAD
 
         amount = Mathf.Min(
             amount,
@@ -90,21 +202,40 @@ public class GameManager : MonoBehaviour
                 FigureState.Black
             );
 
+=======
+        amount = Mathf.Min(amount, availablePositions.Count);
+
+        for (int i = 0; i < amount; i++)
+        {
+            int randomIndex = Random.Range(0, availablePositions.Count);
+            Vector2 pos = availablePositions[randomIndex];
+            availablePositions.RemoveAt(randomIndex);
+
+            GameObject obj = Instantiate(figurePrefab, pos, Quaternion.identity);
+            Figure figure = obj.GetComponent<Figure>();
+
+            figure.SetState(FigureState.Black);
+>>>>>>> respaldo-menu
             figures.Add(figure);
         }
 
         ChooseInitialFigures();
 
+<<<<<<< HEAD
         Debug.Log(
             "Nueva ronda: " +
             currentRound
         );
+=======
+        Debug.Log("Nueva ronda: " + currentRound);
+>>>>>>> respaldo-menu
     }
 
     void GenerateGrid()
     {
         availablePositions.Clear();
 
+<<<<<<< HEAD
         float startX =
             -(columns - 1) *
             cellSize / 2f;
@@ -112,17 +243,25 @@ public class GameManager : MonoBehaviour
         float startY =
             -(rows - 1) *
             cellSize / 2f;
+=======
+        float startX = -(columns - 1) * cellSize / 2f;
+        float startY = -(rows - 1) * cellSize / 2f;
+>>>>>>> respaldo-menu
 
         for (int y = 0; y < rows; y++)
         {
             for (int x = 0; x < columns; x++)
             {
+<<<<<<< HEAD
                 Vector2 pos =
                     new Vector2(
                         startX + x * cellSize,
                         startY + y * cellSize
                     );
 
+=======
+                Vector2 pos = new Vector2(startX + x * cellSize, startY + y * cellSize);
+>>>>>>> respaldo-menu
                 availablePositions.Add(pos);
             }
         }
@@ -130,6 +269,7 @@ public class GameManager : MonoBehaviour
 
     void ChooseInitialFigures()
     {
+<<<<<<< HEAD
         if (figures.Count < 2)
             return;
 
@@ -227,6 +367,49 @@ public class GameManager : MonoBehaviour
                 smallFigureForce,
                 ForceMode2D.Impulse
             );
+=======
+        if (figures.Count < 2) return;
+
+        int whiteIndex = Random.Range(0, figures.Count);
+        currentWhiteFigure = figures[whiteIndex];
+        currentWhiteFigure.SetState(FigureState.White);
+
+        Figure nextFigure = GetRandomFigure(currentWhiteFigure);
+
+        if (nextFigure != null)
+        {
+            currentGrayFigure = nextFigure;
+            currentGrayFigure.SetState(FigureState.Gray);
+        }
+    }
+
+    public Figure GetRandomFigure(Figure excluded)
+    {
+        List<Figure> candidates = new List<Figure>();
+        foreach (Figure f in figures)
+        {
+            if (f != null && f != excluded)
+                candidates.Add(f);
+        }
+
+        if (candidates.Count == 0) return null;
+
+        int randomIndex = Random.Range(0, candidates.Count);
+        return candidates[randomIndex];
+    }
+
+    public void SpawnSmallFigures(Vector2 position)
+    {
+        for (int i = 0; i < smallFiguresPerBig; i++)
+        {
+            GameObject obj = Instantiate(smallFigurePrefab, position, Quaternion.identity);
+            Figure smallFigure = obj.GetComponent<Figure>();
+            figures.Add(smallFigure);
+
+            Rigidbody2D rb = obj.GetComponent<Rigidbody2D>();
+            Vector2 direction = Random.insideUnitCircle.normalized;
+            rb.AddForce(direction * smallFigureForce, ForceMode2D.Impulse);
+>>>>>>> respaldo-menu
         }
     }
 
@@ -235,6 +418,7 @@ public class GameManager : MonoBehaviour
         foreach (Figure f in figures)
         {
             if (f != null)
+<<<<<<< HEAD
             {
                 Destroy(
                     f.gameObject
@@ -247,18 +431,33 @@ public class GameManager : MonoBehaviour
         currentWhiteFigure = null;
         currentGrayFigure = null;
     }
+=======
+                Destroy(f.gameObject);
+        }
+
+        figures.Clear();
+        currentWhiteFigure = null;
+        currentGrayFigure = null;
+    }
+
+>>>>>>> respaldo-menu
     public void RestartRun()
     {
         currentRound = 1;
 
         if (RoundManager.Instance != null)
+<<<<<<< HEAD
         {
             RoundManager.Instance.UpdateUI();
         }
+=======
+            RoundManager.Instance.UpdateUI();
+>>>>>>> respaldo-menu
 
         TimerManager.Instance.StopTimer();
         TimerManager.Instance.ResetTimer();
 
+<<<<<<< HEAD
         SwipeManager swipe =
             FindFirstObjectByType<SwipeManager>();
 
@@ -266,19 +465,32 @@ public class GameManager : MonoBehaviour
         {
             swipe.ResetRun();
         }
+=======
+        SwipeManager swipe = FindFirstObjectByType<SwipeManager>();
+        if (swipe != null)
+            swipe.ResetRun();
+>>>>>>> respaldo-menu
 
         ScoreManager.Instance.ResetScore();
 
         SpawnRound();
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> respaldo-menu
     public void NextRound()
     {
         currentRound++;
 
         if (RoundManager.Instance != null)
+<<<<<<< HEAD
         {
             RoundManager.Instance.UpdateUI();
         }
+=======
+            RoundManager.Instance.UpdateUI();
+>>>>>>> respaldo-menu
 
         SpawnRound();
     }

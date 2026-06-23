@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MainMenu.unity
+    guid: 39dc2437154099d4986b9795cc194a49
+  - enabled: 1
     path: Assets/Greypulse.unity
     guid: 31b650a7a4e749246afb05c565a265f1
   m_configObjects:
